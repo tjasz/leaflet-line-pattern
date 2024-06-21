@@ -1,4 +1,4 @@
-enum CommandOperator {
+export enum CommandOperator {
   Move = "M",
   Line = "L",
   Horizontal = "H",
@@ -11,7 +11,7 @@ enum CommandOperator {
   Close = "Z",
 }
 
-type PathCommand = {
+export type PathCommand = {
   isAbsolute: boolean;
   operator: CommandOperator;
   parameters: number[];
