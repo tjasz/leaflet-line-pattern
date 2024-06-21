@@ -1,3 +1,6 @@
+/**
+ * A point in a 2D cartesian coordinate system.
+ */
 export type Point = { x: number; y: number };
 
 /**
