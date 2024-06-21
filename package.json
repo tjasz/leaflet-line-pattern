@@ -10,5 +10,8 @@
   },
   "keywords": [],
   "author": "Tyler Jaszkowiak",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "tsc": "^2.0.4"
+  }
 }
