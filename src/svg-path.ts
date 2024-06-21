@@ -1,14 +1,14 @@
 enum CommandOperator {
-  Move,
-  Line,
-  Horizontal,
-  Vertical,
-  Cubic,
-  SmoothCubic,
-  Quadratic,
-  TSmoothQuadratic,
-  Arc,
-  ZClose,
+  Move = "M",
+  Line = "L",
+  Horizontal = "H",
+  Vertical = "V",
+  Cubic = "C",
+  SmoothCubic = "S",
+  Quadratic = "Q",
+  SmoothQuadratic = "T",
+  Arc = "A",
+  Close = "Z",
 }
 
 type PathCommand = {
@@ -44,7 +44,7 @@ function parse(path: string): SvgPath {
   // Only numeric characters (0-9, period, and the negative operator),
   // command names (MLHVCSQTAZ and lowercase equivalents)
   // whitespace, and commas are allowed.
-  const invalidCharacters = path.match(/[^\\sMmLlHhVvCcSsQqTtAaZz0-9,.-]/);
+  const invalidCharacters = path.match(/[^\sMmLlHhVvCcSsQqTtAaZz0-9,.-]/);
   if (invalidCharacters?.length) {
     throw new Error(`Invalid SVG contains non-allowed characters '${invalidCharacters.join("")}': ${path}`)
   }
@@ -98,11 +98,11 @@ function parseCommandOperator(operator: string) {
     case "Q":
       return CommandOperator.Quadratic;
     case "T":
-      return CommandOperator.TSmoothQuadratic;
+      return CommandOperator.SmoothQuadratic;
     case "A":
       return CommandOperator.Arc;
     case "Z":
-      return CommandOperator.ZClose;
+      return CommandOperator.Close;
     default:
       throw new Error(`Invalid SVG path command: ${operator}`);
   }
@@ -122,7 +122,7 @@ function getParamCountForOperator(operator: CommandOperator): number {
   switch (operator) {
     case CommandOperator.Move:
     case CommandOperator.Line:
-    case CommandOperator.TSmoothQuadratic:
+    case CommandOperator.SmoothQuadratic:
       return 2;
     case CommandOperator.Horizontal:
     case CommandOperator.Vertical:
@@ -134,7 +134,7 @@ function getParamCountForOperator(operator: CommandOperator): number {
       return 4;
     case CommandOperator.Arc:
       return 7;
-    case CommandOperator.ZClose:
+    case CommandOperator.Close:
       return 0;
     default:
       throw new Error(`Invalid SVG path command: ${operator}`);
