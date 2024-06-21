@@ -17,7 +17,7 @@ type PathCommand = {
   parameters: number[];
 }
 
-type SvgPath = PathCommand[];
+export type SvgPath = PathCommand[];
 
 const defaultCommand: PathCommand = {
   isAbsolute: true,
@@ -25,7 +25,7 @@ const defaultCommand: PathCommand = {
   parameters: [0, 0]
 };
 
-function toString(path: SvgPath): string {
+export function toString(path: SvgPath): string {
   let str = "";
 
   for (const c of path) {
@@ -36,7 +36,7 @@ function toString(path: SvgPath): string {
   return str.trim();
 }
 
-function parse(path: string): SvgPath {
+export function parse(path: string): SvgPath {
   if (!path || !path.length) {
     return [defaultCommand];
   }
