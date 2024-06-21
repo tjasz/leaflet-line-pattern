@@ -6,12 +6,14 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "Tyler Jaszkowiak",
   "license": "ISC",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "ts-jest": "^29.1.5",
     "tsc": "^2.0.4"
   }
 }
