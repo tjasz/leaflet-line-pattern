@@ -171,3 +171,35 @@ describe("rotate around origin", () => {
     }
   )
 })
+
+describe("rotate around non-origin axis point", () => {
+  it.each<[[Point, number, Point], Point]>([
+    // rotating a point around itself any amount ends up at the same point
+    [[{ x: 1, y: 2 }, 0, { x: 1, y: 2 }], { x: 1, y: 2 }],
+    [[{ x: 1, y: 2 }, 1, { x: 1, y: 2 }], { x: 1, y: 2 }],
+    [[{ x: 1, y: 2 }, 2, { x: 1, y: 2 }], { x: 1, y: 2 }],
+    [[{ x: 1, y: 2 }, 3, { x: 1, y: 2 }], { x: 1, y: 2 }],
+    [[{ x: 1, y: 2 }, 4, { x: 1, y: 2 }], { x: 1, y: 2 }],
+    // test the full unit circle at 30 degree intervals
+    [[{ x: 2, y: 3 }, 1 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + halfRoot3, y: 3.5 }],
+    [[{ x: 2, y: 3 }, 2 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 0.5, y: 3 + halfRoot3 }],
+    [[{ x: 2, y: 3 }, 3 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 0, y: 4 }],
+    [[{ x: 2, y: 3 }, 4 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + -0.5, y: 3 + halfRoot3 }],
+    [[{ x: 2, y: 3 }, 0 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 1, y: 3 }],
+    [[{ x: 2, y: 3 }, 5 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + -halfRoot3, y: 3.5 }],
+    [[{ x: 2, y: 3 }, 6 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + -1, y: 3 }],
+    [[{ x: 2, y: 3 }, 7 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + -halfRoot3, y: 2.5 }],
+    [[{ x: 2, y: 3 }, 8 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + -0.5, y: 3 - halfRoot3 }],
+    [[{ x: 2, y: 3 }, 9 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 0, y: 2 }],
+    [[{ x: 2, y: 3 }, 10 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 0.5, y: 3 - halfRoot3 }],
+    [[{ x: 2, y: 3 }, 11 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + halfRoot3, y: 2.5 }],
+    [[{ x: 2, y: 3 }, 12 * Math.PI / 6, { x: 1, y: 3 }], { x: 1 + 1, y: 3 }],
+  ])(
+    "rotateAroundPoint(%p)",
+    (args: [Point, number, Point], expected: Point) => {
+      const result = rotateAroundPoint(...args);
+      expect(result.x).toBeCloseTo(expected.x, 14);
+      expect(result.y).toBeCloseTo(expected.y, 14);
+    }
+  )
+})
