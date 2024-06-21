@@ -14,10 +14,6 @@ export const SvgPatternRenderer = L.SVG.extend({
   _updatePoly(layer: L.Path, closed: boolean) {
     // @ts-expect-error
     this._setPath(layer, pointsToPatternPath(layer._parts, closed, layer.options.pattern));
-  },
-  _updateStyle(layer: L.Layer) {
-    // @ts-expect-error
-    L.SVG.prototype._updateStyle(layer);
   }
 })
 
