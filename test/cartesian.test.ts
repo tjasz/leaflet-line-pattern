@@ -1,5 +1,32 @@
 import { describe, it, expect } from "@jest/globals"
-import { moveAlongBearing, dist, rotateAroundOrigin, Point } from "../src/cartesian"
+import { dist, bearing, moveAlongBearing, rotateAroundPoint, Point } from "../src/cartesian"
+
+const root2 = Math.sqrt(2);
+const halfRoot3 = Math.sqrt(3) / 2;
+
+const deg30 = Math.PI / 6;
+const deg60 = 2 * deg30;
+const deg90 = 3 * deg30;
+const deg120 = 4 * deg30;
+const deg150 = 5 * deg30;
+const deg180 = 6 * deg30;
+const deg210 = 7 * deg30;
+const deg240 = 8 * deg30;
+const deg270 = 9 * deg30;
+const deg300 = 10 * deg30;
+const deg330 = 11 * deg30;
+const degNeg60 = -2 * deg30;
+const degNeg90 = -3 * deg30;
+const degNeg120 = -4 * deg30;
+const degNeg150 = -5 * deg30;
+const degNeg30 = -Math.PI / 6;
+
+const deg45 = Math.PI / 4;
+const deg135 = 3 * Math.PI / 4;
+const deg225 = 5 * Math.PI / 4;
+const deg315 = 7 * Math.PI / 4;
+const degNeg45 = -Math.PI / 4;
+const degNeg135 = -3 * Math.PI / 4;
 
 describe("distance between points", () => {
   it.each<[[Point, Point], number]>([
@@ -30,7 +57,37 @@ describe("distance between points", () => {
   )
 })
 
-const halfRoot3 = Math.sqrt(3) / 2;
+describe("bearing from point to point", () => {
+  it.each<[[Point, Point], number]>([
+    // the bearing between equal points is defined as 0, could be anything
+    [[{ x: 0, y: 0 }, { x: 0, y: 0 }], 0],
+    [[{ x: 1, y: 1 }, { x: 1, y: 1 }], 0],
+    // try the unit circle in 30 degree increments
+    [[{ x: 0, y: 0 }, { x: 1, y: 0 }], 0],
+    [[{ x: 0, y: 0 }, { x: halfRoot3, y: 0.5 }], deg30],
+    [[{ x: 0, y: 0 }, { x: 0.5, y: halfRoot3 }], deg60],
+    [[{ x: 0, y: 0 }, { x: 0, y: 1 }], deg90],
+    [[{ x: 0, y: 0 }, { x: -0.5, y: halfRoot3 }], deg120],
+    [[{ x: 0, y: 0 }, { x: -halfRoot3, y: 0.5 }], deg150],
+    [[{ x: 0, y: 0 }, { x: -1, y: 0 }], deg180],
+    [[{ x: 0, y: 0 }, { x: -halfRoot3, y: -0.5 }], degNeg150],
+    [[{ x: 0, y: 0 }, { x: -0.5, y: -halfRoot3 }], degNeg120],
+    [[{ x: 0, y: 0 }, { x: 0, y: -1 }], degNeg90],
+    [[{ x: 0, y: 0 }, { x: 0.5, y: -halfRoot3 }], degNeg60],
+    [[{ x: 0, y: 0 }, { x: halfRoot3, y: -0.5 }], degNeg30],
+    // try the unit circle in 45 degree increments
+    [[{ x: 0, y: 0 }, { x: 1, y: 1 }], deg45],
+    [[{ x: 0, y: 0 }, { x: -1, y: 1 }], deg135],
+    [[{ x: 0, y: 0 }, { x: -1, y: -1 }], degNeg135],
+    [[{ x: 0, y: 0 }, { x: 1, y: -1 }], degNeg45],
+  ])(
+    "bearing(%p)",
+    (args: [Point, Point], expected: number) => {
+      expect(bearing(...args)).toBeCloseTo(expected, 14);
+    }
+  )
+})
+
 describe("move along bearing", () => {
   it.each<[[Point, number, number], Point]>([
     // moving 0 distance in any direction ends up at the same point
@@ -67,7 +124,6 @@ describe("move along bearing", () => {
   )
 })
 
-const root2 = Math.sqrt(2);
 describe("rotate around origin", () => {
   it.each<[[Point, number], Point]>([
     // rotating the origin any amount ends up at the same point
@@ -107,9 +163,9 @@ describe("rotate around origin", () => {
     [[{ x: 3, y: 4 }, 3 * Math.PI / 2], { x: 4, y: -3 }],
     [[{ x: 3, y: 4 }, 4 * Math.PI / 2], { x: 3, y: 4 }],
   ])(
-    "rotateAroundOrigin(%p)",
+    "rotateAroundPoint(%p)",
     (args: [Point, number], expected: Point) => {
-      const result = rotateAroundOrigin(...args);
+      const result = rotateAroundPoint(...args);
       expect(result.x).toBeCloseTo(expected.x, 14);
       expect(result.y).toBeCloseTo(expected.y, 14);
     }

@@ -32,7 +32,7 @@ export function dist(p1: Point, p2: Point) {
  * @returns The bearing in radians from point `p1` to point `p2`
  */
 export function bearing(p1: Point, p2: Point) {
-  return Math.atan2(p2.y - p1.y, p2.x - p2.x);
+  return Math.atan2(p2.y - p1.y, p2.x - p1.x);
 }
 
 /**
@@ -62,7 +62,7 @@ export function moveAlongBearing(
  * @param axisPoint The point to rotate around (defaults to the origin 0,0)
  * @returns 
  */
-export function rotateAroundOrigin(
+export function rotateAroundPoint(
   initialPoint: Point,
   rotationRadians: number,
   axisPoint: Point = { x: 0, y: 0 },
