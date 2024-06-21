@@ -26,7 +26,7 @@ export function translate(path: SvgPath, dx: number, dy: number): SvgPath {
   if (dx === 0 && dy === 0) {
     return path;
   }
-  const result = path.map(c => {
+  const result = path.map((c, i) => {
     if (c.isAbsolute) {
       switch (c.operator) {
         // commands with x and y coordinates
@@ -58,6 +58,14 @@ export function translate(path: SvgPath, dx: number, dy: number): SvgPath {
           throw new Error("Invalid SVG command: " + c.operator)
       }
     } else {
+      // if an "m" command is the first command in a path,
+      // its first pair of parameters should be treated as absolute
+      if (i === 0 && c.operator === "M") {
+        return {
+          ...c, parameters: [c.parameters[0] + dx, c.parameters[1] + dy, ...c.parameters.slice(2)]
+        }
+      }
+      // most relative commands do not need any transformation
       return c;
     }
   });

@@ -58,31 +58,33 @@ describe("translate", () => {
     [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2, 3, 4] }], -10, 10], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [-9, 12, -7, 14] }]],
     [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2, 3, 4] }], 10, -10], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, -8, 13, -6] }]],
     [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2, 3, 4] }], 10, 10], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 12, 13, 14] }]],
-    // // translate an L command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "L", parameters: [3, 4, 5, 6] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "L", parameters: [13, 24, 15, 26] }]],
-    // // translate an H command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "H", parameters: [3, 4] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "H", parameters: [13, 14] }]],
-    // // translate a V command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "V", parameters: [3, 4] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "V", parameters: [23, 24] }]],
-    // // translate a C command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "C", parameters: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "C", parameters: [13, 24, 15, 26, 17, 28, 19, 30, 21, 32, 23, 34] }]],
-    // // translate a S command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "S", parameters: [3, 4, 5, 6, 7, 8, 9, 10] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "S", parameters: [13, 24, 15, 26, 17, 28, 19, 30] }]],
-    // // translate a Q command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "Q", parameters: [3, 4, 5, 6, 7, 8, 9, 10] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "Q", parameters: [13, 24, 15, 26, 17, 28, 19, 30] }]],
-    // // translate a T command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "T", parameters: [3, 4, 5, 6] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "T", parameters: [13, 24, 15, 26] }]],
-    // // translate a A command
-    // // only the last 2 of 7 parameters should be translated
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "A", parameters: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "A", parameters: [3, 4, 5, 6, 7, 18, 29, 10, 11, 12, 13, 14, 25, 36] }]],
-    // // translate a Z command
-    // [[[{ operator: CommandOperator.Move, parameters: [1, 2] }, { operator: "Z", parameters: [] }], 10, 20], [{ operator: CommandOperator.Move, parameters: [11, 22] }, { operator: "Z", parameters: [] }]],
-    // // test that relative commands do not change
-    // // TODO although, should a leading "m" change??
-    // [[[{ operator: "m", parameters: [1, 2] }, { operator: "l", parameters: [3, 4] }, { operator: "h", parameters: [5] }], 10, 20], [{ operator: "m", parameters: [1, 2] }, { operator: "l", parameters: [3, 4] }, { operator: "h", parameters: [5] }]],
-    // [[[{ operator: "m", parameters: [1, 2] }, { operator: "v", parameters: [3] }, { operator: "c", parameters: [4, 5, 6, 7, 8, 9] }], 10, 20], [{ operator: "m", parameters: [1, 2] }, { operator: "v", parameters: [3] }, { operator: "c", parameters: [4, 5, 6, 7, 8, 9] }]],
-    // [[[{ operator: "m", parameters: [1, 2] }, { operator: "s", parameters: [3, 4, 5, 6] }, { operator: "q", parameters: [7, 8, 9, 10] }], 10, 20], [{ operator: "m", parameters: [1, 2] }, { operator: "s", parameters: [3, 4, 5, 6] }, { operator: "q", parameters: [7, 8, 9, 10] }]],
-    // [[[{ operator: "m", parameters: [1, 2] }, { operator: "t", parameters: [3, 4] }, { operator: "z", parameters: [] }], 10, 20], [{ operator: "m", parameters: [1, 2] }, { operator: "t", parameters: [3, 4] }, { operator: "z", parameters: [] }]],
+    // when the first command is a relative move followed by impicit relative lines, only the first two paramters are translated
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2, 3, 4] }], 10, 10], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 12, 3, 4] }]],
+    // translate an L command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Line, parameters: [3, 4, 5, 6] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Line, parameters: [13, 24, 15, 26] }]],
+    // translate an H command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Horizontal, parameters: [3, 4] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Horizontal, parameters: [13, 14] }]],
+    // translate a V command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Vertical, parameters: [3, 4] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Vertical, parameters: [23, 24] }]],
+    // translate a C command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Cubic, parameters: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Cubic, parameters: [13, 24, 15, 26, 17, 28, 19, 30, 21, 32, 23, 34] }]],
+    // translate a S command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.SmoothCubic, parameters: [3, 4, 5, 6, 7, 8, 9, 10] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.SmoothCubic, parameters: [13, 24, 15, 26, 17, 28, 19, 30] }]],
+    // translate a Q command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Quadratic, parameters: [3, 4, 5, 6, 7, 8, 9, 10] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Quadratic, parameters: [13, 24, 15, 26, 17, 28, 19, 30] }]],
+    // translate a T command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.SmoothQuadratic, parameters: [3, 4, 5, 6] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.SmoothQuadratic, parameters: [13, 24, 15, 26] }]],
+    // translate a A command
+    // only the last 2 of 7 parameters should be translated
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Arc, parameters: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Arc, parameters: [3, 4, 5, 6, 7, 18, 29, 10, 11, 12, 13, 14, 25, 36] }]],
+    // translate a Z command
+    [[[{ isAbsolute: true, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: true, operator: CommandOperator.Close, parameters: [] }], 10, 20], [{ isAbsolute: true, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: true, operator: CommandOperator.Close, parameters: [] }]],
+    // // test that relative commands other than CommandOperator.Move do not change
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: false, operator: CommandOperator.Line, parameters: [3, 4] }, { isAbsolute: false, operator: CommandOperator.Horizontal, parameters: [5] }], 10, 20], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: false, operator: CommandOperator.Line, parameters: [3, 4] }, { isAbsolute: false, operator: CommandOperator.Horizontal, parameters: [5] }]],
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: false, operator: CommandOperator.Vertical, parameters: [3] }, { isAbsolute: false, operator: CommandOperator.Cubic, parameters: [4, 5, 6, 7, 8, 9] }], 10, 20], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: false, operator: CommandOperator.Vertical, parameters: [3] }, { isAbsolute: false, operator: CommandOperator.Cubic, parameters: [4, 5, 6, 7, 8, 9] }]],
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: false, operator: CommandOperator.SmoothCubic, parameters: [3, 4, 5, 6] }, { isAbsolute: false, operator: CommandOperator.Quadratic, parameters: [7, 8, 9, 10] }], 10, 20], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: false, operator: CommandOperator.SmoothCubic, parameters: [3, 4, 5, 6] }, { isAbsolute: false, operator: CommandOperator.Quadratic, parameters: [7, 8, 9, 10] }]],
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: false, operator: CommandOperator.SmoothQuadratic, parameters: [3, 4] }, { isAbsolute: false, operator: CommandOperator.Close, parameters: [] }], 10, 20], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: false, operator: CommandOperator.SmoothQuadratic, parameters: [3, 4] }, { isAbsolute: false, operator: CommandOperator.Close, parameters: [] }]],
+    [[[{ isAbsolute: false, operator: CommandOperator.Move, parameters: [1, 2] }, { isAbsolute: false, operator: CommandOperator.Arc, parameters: [3, 4, 5, 0, 0, 6, 7] }], 10, 20], [{ isAbsolute: false, operator: CommandOperator.Move, parameters: [11, 22] }, { isAbsolute: false, operator: CommandOperator.Arc, parameters: [3, 4, 5, 0, 0, 6, 7] }]],
   ])(
     "translate(%p)",
     (args: [SvgPath, number, number], expected: SvgPath) => {
