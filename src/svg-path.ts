@@ -1,5 +1,3 @@
-import { Point } from "./cartesian"
-
 enum CommandOperator {
   Move,
   Line,
@@ -13,77 +11,18 @@ enum CommandOperator {
   ZClose,
 }
 
-type PathCommandBase = {
+type PathCommand = {
   isAbsolute: boolean;
-}
-
-type MoveCommand = PathCommandBase & {
-  operator: CommandOperator.Move;
-  parameters: Point[];
-}
-
-type LineCommand = PathCommandBase & {
-  operator: CommandOperator.Line;
-  parameters: Point[];
-}
-
-type HorizontalCommand = PathCommandBase & {
-  operator: CommandOperator.Horizontal;
+  operator: CommandOperator;
   parameters: number[];
 }
-
-type VerticalCommand = PathCommandBase & {
-  operator: CommandOperator.Vertical;
-  parameters: number[];
-}
-
-type CubicCommand = PathCommandBase & {
-  operator: CommandOperator.Cubic;
-  parameters: [Point, Point, Point][];
-}
-
-type SmoothCubicCommand = PathCommandBase & {
-  operator: CommandOperator.SmoothCubic;
-  parameters: [Point, Point][];
-}
-
-type QuadraticCommand = PathCommandBase & {
-  operator: CommandOperator.Quadratic;
-  parameters: [Point, Point][];
-}
-
-type SmoothQuadraticCommand = PathCommandBase & {
-  operator: CommandOperator.TSmoothQuadratic;
-  parameters: Point[];
-}
-
-type ArcCommand = PathCommandBase & {
-  operator: CommandOperator.Arc;
-  parameters: [Point, number, boolean, boolean, Point][];
-}
-
-type CloseCommand = PathCommandBase & {
-  operator: CommandOperator.ZClose;
-}
-
-type PathCommand =
-  MoveCommand
-  | LineCommand
-  | HorizontalCommand
-  | VerticalCommand
-  | CubicCommand
-  | SmoothCubicCommand
-  | QuadraticCommand
-  | SmoothQuadraticCommand
-  | ArcCommand
-  | CloseCommand;
 
 type SvgPath = PathCommand[];
 
 const defaultCommand: PathCommand = {
   isAbsolute: true,
   operator: CommandOperator.Move,
-  parameters: [{ x: 0, y: 0 }]
+  parameters: [0, 0]
 };
 
 function toString(path: SvgPath): string {
@@ -118,6 +57,8 @@ function parse(path: string): SvgPath {
 function parseCommand(command: string): PathCommand {
   const commandName = command.charAt(0);
   const isAbsolute = "MLHVCSQTAZ".includes(commandName);
+  const operator = parseCommandOperator(command);
+
   const parametersString = command.slice(1).trim();
   const parameters = parametersString.length ? parametersString.split(/[, ]+/).map(v => {
     const n = Number(v);
@@ -127,124 +68,81 @@ function parseCommand(command: string): PathCommand {
     return n;
   }) : [];
 
-  switch (commandName.toUpperCase()) {
+  const expectedParamCount = getParamCountForOperator(operator);
+  if (!checkRequiredParamCount(parameters, expectedParamCount)) {
+    throw new Error(`Invalid parameter count for ${operator}. Expected multiple of ${expectedParamCount}. Got ${parameters.length}: ${command}`)
+  }
+
+  return {
+    isAbsolute,
+    operator,
+    parameters,
+  }
+}
+
+function parseCommandOperator(operator: string) {
+  operator = operator.toUpperCase().charAt(0);
+  switch (operator) {
     case "M":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Move,
-        parameters: toPointsList(parameters),
-      }
+      return CommandOperator.Move;
     case "L":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Line,
-        parameters: toPointsList(parameters),
-      }
+      return CommandOperator.Line;
     case "H":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Horizontal,
-        parameters,
-      }
+      return CommandOperator.Horizontal;
     case "V":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Vertical,
-        parameters
-      }
+      return CommandOperator.Vertical;
     case "C":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Cubic,
-        parameters: toPointTriplesList(parameters),
-      }
+      return CommandOperator.Cubic;
     case "S":
-      return {
-        isAbsolute,
-        operator: CommandOperator.SmoothCubic,
-        parameters: toPointPairsList(parameters),
-      }
+      return CommandOperator.SmoothCubic;
     case "Q":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Quadratic,
-        parameters: toPointPairsList(parameters),
-      }
+      return CommandOperator.Quadratic;
     case "T":
-      return {
-        isAbsolute,
-        operator: CommandOperator.TSmoothQuadratic,
-        parameters: toPointsList(parameters),
-      }
+      return CommandOperator.TSmoothQuadratic;
     case "A":
-      return {
-        isAbsolute,
-        operator: CommandOperator.Arc,
-        parameters: toArcParametersList(parameters),
-      }
+      return CommandOperator.Arc;
     case "Z":
-      return {
-        isAbsolute,
-        operator: CommandOperator.ZClose,
-      }
+      return CommandOperator.ZClose;
     default:
-      throw new Error(`Invalid SVG path command: ${commandName}`);
+      throw new Error(`Invalid SVG path command: ${operator}`);
   }
 }
 
-function toPointsList(values: number[]): Point[] {
-  if (values.length % 2 !== 0) {
-    throw new Error(`Invalid SVG points list had odd number of values: [${values.join(", ")}]`)
+function checkRequiredParamCount(parameters: number[], count: number): boolean {
+  if (count === 0) {
+    return parameters.length === 0;
   }
-  const points: Point[] = [];
-  for (let i = 1; i < values.length; i += 2) {
-    points.push({ x: values[i - 1], y: values[i] })
+  if (count === 1) {
+    return true;
   }
-  return points;
+  return parameters.length % count === 0;
 }
 
-function toPointPairsList(values: number[]): [Point, Point][] {
-  if (values.length % 4 !== 0) {
-    throw new Error(`Invalid SVG command. Expected multiple of 4 values. Got: [${values.join(", ")}]`)
+function getParamCountForOperator(operator: CommandOperator): number {
+  switch (operator) {
+    case CommandOperator.Move:
+    case CommandOperator.Line:
+    case CommandOperator.TSmoothQuadratic:
+      return 2;
+    case CommandOperator.Horizontal:
+    case CommandOperator.Vertical:
+      return 1;
+    case CommandOperator.Cubic:
+      return 6;
+    case CommandOperator.SmoothCubic:
+    case CommandOperator.Quadratic:
+      return 4;
+    case CommandOperator.Arc:
+      return 7;
+    case CommandOperator.ZClose:
+      return 0;
+    default:
+      throw new Error(`Invalid SVG path command: ${operator}`);
   }
-  const points: [Point, Point][] = [];
-  for (let i = 3; i < values.length; i += 4) {
-    points.push([
-      { x: values[i - 3], y: values[i - 2] },
-      { x: values[i - 1], y: values[i] }
-    ])
-  }
-  return points;
 }
 
-function toPointTriplesList(values: number[]): [Point, Point, Point][] {
-  if (values.length % 6 !== 0) {
-    throw new Error(`Invalid SVG command. Expected multiple of 6 values. Got: [${values.join(", ")}]`)
-  }
-  const points: [Point, Point, Point][] = [];
-  for (let i = 5; i < values.length; i += 6) {
-    points.push([
-      { x: values[i - 5], y: values[i - 4] },
-      { x: values[i - 3], y: values[i - 2] },
-      { x: values[i - 1], y: values[i] }
-    ])
-  }
-  return points;
-}
-
-function toArcParametersList(values: number[]): [Point, number, boolean, boolean, Point][] {
-  if (values.length % 7 !== 0) {
-    throw new Error(`Invalid SVG command. Expected multiple of 7 values. Got: [${values.join(", ")}]`)
-  }
-  const parameters: [Point, number, boolean, boolean, Point][] = [];
-  for (let i = 6; i < values.length; i += 7) {
-    parameters.push([
-      { x: values[i - 6], y: values[i - 5] },
-      values[i - 4],
-      values[i - 3] !== 0,
-      values[i - 2] !== 0,
-      { x: values[i - 1], y: values[i] }
-    ])
-  }
-  return parameters;
-}
+const Path = {
+  toString,
+  parse,
+};
+export default Path;
