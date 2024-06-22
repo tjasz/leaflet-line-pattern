@@ -1,0 +1,19 @@
+{
+  "name": "leaflet-line-pattern-demo",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx parcel index.html --open",
+    "build": "npx parcel build index.html"
+  },
+  "dependencies": {
+    "leaflet": "1.9.4",
+    "leaflet-line-pattern": "0.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
+  },
+  "keywords": []
+}
