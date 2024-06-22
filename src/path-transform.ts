@@ -363,7 +363,6 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
       }
     }
   }
-  console.log({ before: toString(path), after: toString(commands) })
 
   return commands;
 }
