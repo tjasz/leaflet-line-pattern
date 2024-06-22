@@ -196,7 +196,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             x: c.parameters[c.parameters.length - 2],
             y: c.parameters[c.parameters.length - 1],
           };
-          subpathStart = marker;
+          subpathStart = { x: c.parameters[0], y: c.parameters[1] };
           commands.push(c);
           break;
         case "L":
@@ -244,7 +244,9 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
               x: marker.x + c.parameters[j - 1],
               y: marker.y + c.parameters[j],
             };
-            subpathStart = marker;
+            if (j < 2) {
+              subpathStart = marker;
+            }
             commands.push({
               isAbsolute: true,
               operator: j < 2 ? c.operator : CommandOperator.Line,
@@ -272,7 +274,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: CommandOperator.Line,
-              parameters: c.parameters.map((x) => [marker.x, marker.y]).flat(),
+              parameters: [marker.x, marker.y],
             });
           }
           break;
@@ -282,7 +284,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: CommandOperator.Line,
-              parameters: c.parameters.map((y) => [marker.x, marker.y]).flat(),
+              parameters: [marker.x, marker.y],
             });
           }
           break;
