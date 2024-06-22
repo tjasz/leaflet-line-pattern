@@ -4,6 +4,9 @@
   "description": "leaflet-line-pattern is a leaflet plugin that enables more options for how a line should be drawn, such as adding arrowheads or tick marks.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src"
+  ],
   "scripts": {
     "lint": "npx prettier -w .",
     "build": "tsc",
