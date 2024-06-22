@@ -16,6 +16,9 @@ const features = new L.GeoJSON({
   features: [
     {
       type: "Feature",
+      properties: {
+        pattern: "M0 0L3 3M0 0 L-3 3,10,20,T"
+      },
       geometry: {
         type: "LineString",
         coordinates: [
@@ -27,4 +30,8 @@ const features = new L.GeoJSON({
       }
     }
   ]
-}).addTo(map);
+},
+  {
+    style: (feature) => ({ ...feature.properties })
+  }
+).addTo(map);
