@@ -12,13 +12,15 @@ header {
 }
 
 main {
-  margin: 0;
-  padding: 0;
+  position: relative;
+  height: calc(100vh - 5em - 4px);
 }
 
 #map {
+  position: absolute;
   width: 100%;
-  height: calc(100vh - 5em - 4px);
+  top: 0;
+  bottom: 0;
 }
 
 footer {
@@ -32,6 +34,5 @@ footer {
 }
 
 footer p {
-  margin: 0;
   padding: 0.4em;
 }
