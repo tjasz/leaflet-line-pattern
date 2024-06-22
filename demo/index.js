@@ -17,6 +17,7 @@ const features = new L.GeoJSON({
     {
       type: "Feature",
       properties: {
+        label: "arrows",
         pattern: "M0 0L3 3M0 0 L-3 3,10,20,T"
       },
       geometry: {
@@ -32,6 +33,11 @@ const features = new L.GeoJSON({
   ]
 },
   {
-    style: (feature) => ({ ...feature.properties })
+    style: (feature) => ({ ...feature.properties }),
+    onEachFeature: (feature, layer) => {
+      layer.bindPopup(
+        `<p><strong>${feature.properties.label}:</strong></p><p>${feature.properties.pattern}</p>`
+      )
+    }
   }
 ).addTo(map);
