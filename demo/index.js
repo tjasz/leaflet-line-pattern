@@ -73,8 +73,8 @@ const features = new L.GeoJSON({
     {
       type: "Feature",
       properties: {
-        label: "airplane every 40px (starting at 20px offset)",
-        pattern: "M15 6.8182L15 8.5l-6.5 -1 l-0.3182 4.7727L11 14v1l-3.5 -0.6818L4 15v-1l2.8182 -1.7273L6.5 7.5L0 8.5V6.8182L6.5 4.5v-3c0 0 0 -1.5 1 -1.5s1 1.5 1 1.5v2.8182 L15 6.8182z,20,40,F"
+        label: "airplane every 40px",
+        pattern: "M 7.5 6.8182 L 7.5 8.5 L 1 7.5 L 0.6818 12.2727 L 3.5 14 L 3.5 15 L 0 14.3182 L -3.5 15 L -3.5 14 L -0.6818 12.2727 L -1 7.5 L -7.5 8.5 L -7.5 6.8182 L -1 4.5 L -1 1.5 C -1 1.5 -1 0 0 0 S 1 1.5 1 1.5 L 1 4.3182 L 7.5 6.8182 Z,20,40,T"
       },
       geometry: {
         type: "LineString",
