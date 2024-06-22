@@ -1,5 +1,5 @@
 import { Point, rotateAroundPoint } from "./cartesian";
-import { CommandOperator, PathCommand, SvgPath } from "./svg-path";
+import { CommandOperator, PathCommand, SvgPath, toString } from "./svg-path";
 
 /**
  * Round all the coordinates in a path to the number of places given.
@@ -272,7 +272,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: CommandOperator.Line,
-              parameters: c.parameters.map((x) => [x, marker.y]).flat(),
+              parameters: c.parameters.map((x) => [marker.x, marker.y]).flat(),
             });
           }
           break;
@@ -282,12 +282,20 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: CommandOperator.Line,
-              parameters: c.parameters.map((y) => [marker.x, y]).flat(),
+              parameters: c.parameters.map((y) => [marker.x, marker.y]).flat(),
             });
           }
           break;
         case "C":
           for (let j = 5; j < c.parameters.length; j += 6) {
+            const parameters = [
+              marker.x + c.parameters[j - 5],
+              marker.y + c.parameters[j - 4],
+              marker.x + c.parameters[j - 3],
+              marker.y + c.parameters[j - 2],
+              marker.x + c.parameters[j - 1],
+              marker.y + c.parameters[j],
+            ];
             marker = {
               x: marker.x + c.parameters[j - 1],
               y: marker.y + c.parameters[j],
@@ -295,20 +303,19 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: c.operator,
-              parameters: [
-                marker.x + c.parameters[j - 5],
-                marker.y + c.parameters[j - 4],
-                marker.x + c.parameters[j - 3],
-                marker.y + c.parameters[j - 2],
-                marker.x,
-                marker.y,
-              ],
+              parameters,
             });
           }
           break;
         case "S":
         case "Q":
           for (let j = 3; j < c.parameters.length; j += 4) {
+            const parameters = [
+              marker.x + c.parameters[j - 3],
+              marker.y + c.parameters[j - 2],
+              marker.x + c.parameters[j - 1],
+              marker.y + c.parameters[j],
+            ];
             marker = {
               x: marker.x + c.parameters[j - 1],
               y: marker.y + c.parameters[j],
@@ -316,12 +323,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             commands.push({
               isAbsolute: true,
               operator: c.operator,
-              parameters: [
-                marker.x + c.parameters[j - 3],
-                marker.y + c.parameters[j - 2],
-                marker.x,
-                marker.y,
-              ],
+              parameters,
             });
           }
           break;
@@ -359,6 +361,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
       }
     }
   }
+  console.log({ before: toString(path), after: toString(commands) })
 
   return commands;
 }
