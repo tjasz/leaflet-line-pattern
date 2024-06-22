@@ -84,6 +84,21 @@ const features = new L.GeoJSON({
         ]
       }
     },
+    {
+      type: "Feature",
+      properties: {
+        label: "arrows pointing out",
+        pattern: "M3 3 -3 0 3 -3,20,20,T"
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-125.2, 44.8],
+          [-125, 44.8],
+          [-125, 44.7],
+        ]]
+      }
+    },
   ]
 },
   {
