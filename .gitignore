@@ -1,3 +1,5 @@
 dist
 leaflet-line-pattern-*.tgz
 node_modules
+demo/.cache
+demo/package-lock.json
