@@ -2,7 +2,7 @@ import { describe, it, expect } from "@jest/globals";
 import { SvgPath, PathCommand, CommandOperator } from "../src/svg-path";
 import Transform from "../src/path-transform";
 
-describe("translate", () => {
+describe("round", () => {
   it.each<[[SvgPath, number], SvgPath]>([
     [[[], 0], []],
     [
