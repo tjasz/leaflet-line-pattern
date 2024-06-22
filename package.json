@@ -1,11 +1,12 @@
 {
   "name": "leaflet-line-pattern",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "prepublish": "tsc",
+    "lint": "npx prettier -w .",
+    "build": "tsc",
     "test": "npx jest"
   },
   "keywords": [],
@@ -13,11 +14,10 @@
   "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@types/leaflet": "^1.9.12",
+    "leaflet": "^1.9.4",
+    "prettier": "^3.3.2",
     "ts-jest": "^29.1.5",
     "tsc": "^2.0.4"
-  },
-  "dependencies": {
-    "@types/leaflet": "^1.9.12",
-    "leaflet": "^1.9.4"
   }
 }
