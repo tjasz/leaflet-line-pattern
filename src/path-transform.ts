@@ -247,7 +247,7 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             subpathStart = marker;
             commands.push({
               isAbsolute: true,
-              operator: c.operator,
+              operator: j < 2 ? c.operator : CommandOperator.Line,
               parameters: [marker.x, marker.y],
             });
           }
