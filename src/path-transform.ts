@@ -226,7 +226,6 @@ function toAbsoluteAndRemoveHV(path: SvgPath): SvgPath {
             operator: CommandOperator.Line,
             parameters: c.parameters.map((y) => [marker.x, y]).flat(),
           });
-          commands.push(c);
           break;
         case "Z":
           marker = subpathStart;
