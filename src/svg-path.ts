@@ -15,21 +15,23 @@ export type PathCommand = {
   isAbsolute: boolean;
   operator: CommandOperator;
   parameters: number[];
-}
+};
 
 export type SvgPath = PathCommand[];
 
 const defaultCommand: PathCommand = {
   isAbsolute: true,
   operator: CommandOperator.Move,
-  parameters: [0, 0]
+  parameters: [0, 0],
 };
 
 export function toString(path: SvgPath): string {
   let str = "";
 
   for (const c of path) {
-    str += (c.isAbsolute ? c.operator.toString() : c.operator.toString().toLowerCase()).charAt(0);
+    str += (
+      c.isAbsolute ? c.operator.toString() : c.operator.toString().toLowerCase()
+    ).charAt(0);
     str += c.parameters.join(" ");
   }
 
@@ -46,7 +48,9 @@ export function parse(path: string): SvgPath {
   // whitespace, and commas are allowed.
   const invalidCharacters = path.match(/[^\sMmLlHhVvCcSsQqTtAaZz0-9,.-]/);
   if (invalidCharacters?.length) {
-    throw new Error(`Invalid SVG contains non-allowed characters '${invalidCharacters.join("")}': ${path}`)
+    throw new Error(
+      `Invalid SVG contains non-allowed characters '${invalidCharacters.join("")}': ${path}`,
+    );
   }
 
   const commandStrings = path.trim().split(/(?=[MmLlHhVvCcSsQqTtAaZz])/);
@@ -60,24 +64,28 @@ function parseCommand(command: string): PathCommand {
   const operator = parseCommandOperator(command);
 
   const parametersString = command.slice(1).trim();
-  const parameters = parametersString.length ? parametersString.split(/[, ]+/).map(v => {
-    const n = Number(v);
-    if (isNaN(n)) {
-      throw new Error("SVG path command parameter was not a number: " + v)
-    }
-    return n;
-  }) : [];
+  const parameters = parametersString.length
+    ? parametersString.split(/[, ]+/).map((v) => {
+        const n = Number(v);
+        if (isNaN(n)) {
+          throw new Error("SVG path command parameter was not a number: " + v);
+        }
+        return n;
+      })
+    : [];
 
   const expectedParamCount = getParamCountForOperator(operator);
   if (!checkRequiredParamCount(parameters, expectedParamCount)) {
-    throw new Error(`Invalid parameter count for ${operator}. Expected multiple of ${expectedParamCount}. Got ${parameters.length}: ${command}`)
+    throw new Error(
+      `Invalid parameter count for ${operator}. Expected multiple of ${expectedParamCount}. Got ${parameters.length}: ${command}`,
+    );
   }
 
   return {
     isAbsolute,
     operator,
     parameters,
-  }
+  };
 }
 
 function parseCommandOperator(operator: string) {

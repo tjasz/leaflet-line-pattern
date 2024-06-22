@@ -4,7 +4,7 @@
 export type Point = { x: number; y: number };
 
 /**
- * @param x 
+ * @param x
  * @returns The square of a number `x`: (x*x).
  */
 function square(x: number) {
@@ -20,8 +20,8 @@ function L2norm(p: Point) {
 }
 
 /**
- * @param p1 
- * @param p2 
+ * @param p1
+ * @param p2
  * @returns The Euclidean distance between two points `p1` and `p2`.
  */
 export function dist(p1: Point, p2: Point) {
@@ -49,12 +49,12 @@ export function bearing(p1: Point, p2: Point) {
 export function moveAlongBearing(
   initialPoint: Point,
   distance: number,
-  bearingRadians: number
+  bearingRadians: number,
 ): Point {
   return {
     x: initialPoint.x + distance * Math.cos(bearingRadians),
     y: initialPoint.y + distance * Math.sin(bearingRadians),
-  }
+  };
 }
 
 /**
@@ -63,7 +63,7 @@ export function moveAlongBearing(
  * @param initialPoint The initial point
  * @param rotationRadians The amount to rotate around the axis
  * @param axisPoint The point to rotate around (defaults to the origin 0,0)
- * @returns 
+ * @returns
  */
 export function rotateAroundPoint(
   initialPoint: Point,

@@ -1,5 +1,5 @@
-import { describe, it, expect } from "@jest/globals"
-import { parsePattern, patternToString } from "../src/pattern"
+import { describe, it, expect } from "@jest/globals";
+import { parsePattern, patternToString } from "../src/pattern";
 
 // these two tests ensure the 33 patterns defined by CalTopo can be parsed losslessly
 describe("in many cases, patternToString(parsePattern(s)) should equal s, as functions are lossless", () => {
@@ -9,55 +9,25 @@ describe("in many cases, patternToString(parsePattern(s)) should equal s, as fun
     "M-5 5L0 -5M5 5L0 -5,20,40,T",
     "M-6 8L0 -8M6 8L0 -8M0 0L-6 8M0 0L6 8,40,80,T",
     "M-6 8L0 -8M6 8L0 -8M0 0L-6 8M0 0L6 8,20,40,T",
-  ])(
-    "parsePattern(%p)",
-    (path: string) => {
-      expect(patternToString(parsePattern(path))).toEqual(path);
-    }
-  )
-})
+  ])("parsePattern(%p)", (path: string) => {
+    expect(patternToString(parsePattern(path))).toEqual(path);
+  });
+});
 describe("in some cases, patternToString(parsePattern(s)) should not equal s, as defaults are applied and excess characters are removed", () => {
   it.each<[string, string]>([
     // a default offset of 0 is filled in some cases
-    [
-      "M-4 0L4 0,,8,T",
-      "M-4 0L4 0,0,8,T",
-    ],
+    ["M-4 0L4 0,,8,T", "M-4 0L4 0,0,8,T"],
     // an excessive space can also be removed
-    [
-      "M0 -1 L0 1,,8,F",
-      "M0 -1L0 1,0,8,F",
-    ],
-    [
-      "M0 0L 6 0,,10,T",
-      "M0 0L6 0,0,10,T",
-    ],
-    [
-      "M-6 0L6 0,,10,F",
-      "M-6 0L6 0,0,10,F",
-    ],
-    [
-      "M0 -3 L0 3,,12,F",
-      "M0 -3L0 3,0,12,F",
-    ],
-    [
-      "M-5 3L5 0M-5 -3L5 0,,6,F",
-      "M-5 3L5 0M-5 -3L5 0,0,6,F",
-    ],
+    ["M0 -1 L0 1,,8,F", "M0 -1L0 1,0,8,F"],
+    ["M0 0L 6 0,,10,T", "M0 0L6 0,0,10,T"],
+    ["M-6 0L6 0,,10,F", "M-6 0L6 0,0,10,F"],
+    ["M0 -3 L0 3,,12,F", "M0 -3L0 3,0,12,F"],
+    ["M-5 3L5 0M-5 -3L5 0,,6,F", "M-5 3L5 0M-5 -3L5 0,0,6,F"],
     // a default interval of 100% can be applied
-    [
-      "M-5 8 L0 -2 L5 8 Z,100%,,T",
-      "M-5 8L0 -2L5 8Z,100%,100%,T",
-    ],
-    [
-      "M-4 -4L-4 4L4 4L4 -4Z,,25,T",
-      "M-4 -4L-4 4L4 4L4 -4Z,0,25,T",
-    ],
+    ["M-5 8 L0 -2 L5 8 Z,100%,,T", "M-5 8L0 -2L5 8Z,100%,100%,T"],
+    ["M-4 -4L-4 4L4 4L4 -4Z,,25,T", "M-4 -4L-4 4L4 4L4 -4Z,0,25,T"],
     // a default type of F can be applied
-    [
-      "M0 -3 L0 3,0,16,F;M0 -1L0 0,8,16",
-      "M0 -3L0 3,0,16,F;M0 -1L0 0,8,16,F",
-    ],
+    ["M0 -3 L0 3,0,16,F;M0 -1L0 0,8,16", "M0 -3L0 3,0,16,F;M0 -1L0 0,8,16,F"],
     [
       "M-8 -6M8 6M-6 0L0 4L6 0L0 -4Z,,10,F",
       "M-8 -6M8 6M-6 0L0 4L6 0L0 -4Z,0,10,F",
@@ -135,11 +105,7 @@ describe("in some cases, patternToString(parsePattern(s)) should not equal s, as
       "M-12 -12 M12 12 M2 6A2 2 0 1 0 -2 6 A2 2 0 1 0 2 6\t M10 6A2 2 0 1 0 6 6 A2 2 0 0 0 10 6\tM-10 6A2 2 0 1 0 -6 6 A2 2 0 0 0 -10 6\tM6 0A2 2 0 1 0 2 0 A2 2 0 0 0 6 0 M-6 0A2 2 0 1 0 -2 0 A2 2 0 0 0 -6 0\tM2 -6A2 2 0 1 0 -2 -6 A2 2 0 1 0 2 -6,,25,F",
       "M-12 -12M12 12M2 6A2 2 0 1 0 -2 6A2 2 0 1 0 2 6M10 6A2 2 0 1 0 6 6A2 2 0 0 0 10 6M-10 6A2 2 0 1 0 -6 6A2 2 0 0 0 -10 6M6 0A2 2 0 1 0 2 0A2 2 0 0 0 6 0M-6 0A2 2 0 1 0 -2 0A2 2 0 0 0 -6 0M2 -6A2 2 0 1 0 -2 -6A2 2 0 1 0 2 -6,0,25,F",
     ],
-  ])(
-    "parsePattern(%p)",
-    (input: string, expected: string) => {
-      expect(patternToString(parsePattern(input))).toEqual(expected);
-    }
-  )
-})
-
+  ])("parsePattern(%p)", (input: string, expected: string) => {
+    expect(patternToString(parsePattern(input))).toEqual(expected);
+  });
+});
