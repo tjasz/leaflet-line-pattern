@@ -1,6 +1,6 @@
 {
   "name": "leaflet-line-pattern",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "leaflet-line-pattern is a leaflet plugin that enables more options for how a line should be drawn, such as adding arrowheads or tick marks.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -33,6 +33,13 @@
   ],
   "author": "Tyler Jaszkowiak",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjasz/leaflet-line-pattern/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjasz/leaflet-line-pattern.git"
+  },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/leaflet": "^1.9.12",
