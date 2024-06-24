@@ -60,6 +60,21 @@ the line, but it will not be drawn.
 Default: "F".
 *Note: does not apply to polygons. The line will be drawn regardless, so it can be filled.*
 
-#### Examples
+#### Example
+A single tick mark in the middle of the line could be defined by:
 
-## Contributing
+> "M-3 0 3 0,50%,,T"
+- path: horizontal line of length 6
+- offset: 50%
+- interval: 0
+- line: traced
+
+Note that this will be the middle of the displayed line.
+If only a portion of the line is in view, Leaflet will clip it,
+so the tick mark may not be at the geographic middle mark.
+
+Because the pattern path is defined with negative Y as the direction of travel,
+if a horizontal line is drawn with this pattern,
+the pattern path will be rotated to be a vertical tick mark.
+
+![a horizontal line with a vertical tick mark in the middle](./img/example.png)
