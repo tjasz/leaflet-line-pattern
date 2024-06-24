@@ -71,7 +71,7 @@ export function pointsToPatternPath(
     for (i = 0, len = rings.length; i < len; i++) {
       points = rings[i];
       if (closed) {
-        points.push(points[0])
+        points.push(points[0]);
       }
       const ringDistance = Math.floor(
         points.reduce(

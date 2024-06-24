@@ -66,12 +66,12 @@ function parseCommand(command: string): PathCommand {
   const parametersString = command.slice(1).trim();
   const parameters = parametersString.length
     ? parametersString.match(/[+-]?([0-9]*[.])?[0-9]+/g)?.map((v) => {
-      const n = Number(v);
-      if (isNaN(n)) {
-        throw new Error("SVG path command parameter was not a number: " + v);
-      }
-      return n;
-    }) ?? []
+        const n = Number(v);
+        if (isNaN(n)) {
+          throw new Error("SVG path command parameter was not a number: " + v);
+        }
+        return n;
+      }) ?? []
     : [];
 
   const expectedParamCount = getParamCountForOperator(operator);
