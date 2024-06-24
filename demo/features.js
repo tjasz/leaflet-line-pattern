@@ -4,20 +4,6 @@ export const features = {
     {
       type: "Feature",
       properties: {
-        label: "single tick mark in the middle",
-        pattern: "M-3 0 3 0,50%,,T"
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [-125.5, 45.3],
-          [-125.3, 45.3],
-        ]
-      }
-    },
-    {
-      type: "Feature",
-      properties: {
         label: "single arrow at end",
         pattern: "M0 0L7 7M0 0L-7 7,100%,,T"
       },
@@ -26,6 +12,20 @@ export const features = {
         coordinates: [
           [-125.2, 45.3],
           [-125, 45.3],
+        ]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        label: "single tick mark in the middle",
+        pattern: "M-3 0 3 0,50%,,T"
+      },
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [-124.8, 45.3],
+          [-124.6, 45.3],
         ]
       }
     },
@@ -52,8 +52,8 @@ export const features = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [-125.2, 45.1],
-          [-125, 45.1],
+          [-124.8, 45.2],
+          [-124.6, 45.2],
         ]
       }
     },
@@ -66,8 +66,8 @@ export const features = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [-125.2, 45],
-          [-125, 45],
+          [-125.2, 45.1],
+          [-125, 45.1],
         ]
       }
     },
@@ -80,24 +80,9 @@ export const features = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [-125.2, 44.9],
-          [-125, 44.9],
+          [-125.2, 45],
+          [-125, 45],
         ]
-      }
-    },
-    {
-      type: "Feature",
-      properties: {
-        label: "arrows pointing out",
-        pattern: "M3 3 -3 0 3 -3,20,20,T"
-      },
-      geometry: {
-        type: "Polygon",
-        coordinates: [[
-          [-125.2, 44.8],
-          [-125, 44.8],
-          [-125, 44.7],
-        ]]
       }
     },
     {
@@ -109,8 +94,8 @@ export const features = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [-124.8, 44.8],
-          [-124.6, 44.8],
+          [-124.8, 45.1],
+          [-124.6, 45.1],
         ]
       }
     },
@@ -123,9 +108,24 @@ export const features = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [-124.8, 44.9],
-          [-124.6, 44.9],
+          [-124.8, 45],
+          [-124.6, 45],
         ]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        label: "arrows pointing out",
+        pattern: "M3 3 -3 0 3 -3,20,20,T"
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-125.2, 44.9],
+          [-125, 44.9],
+          [-125, 44.8],
+        ]]
       }
     },
   ]

@@ -2,16 +2,7 @@
 
 leaflet-line-pattern is a leaflet plugin that enables more options for how a line should be drawn, such as adding arrowheads or tick marks.
 
-## Pattern
-
-The basis of leaflet-line-pattern is the pattern definition.
-A pattern is a series of repeated images that is rendered along the path of a LineString or Polygon.
-A pattern can be one or multiple parts.
-A pattern part consists of the following
-- An SVG path
-- An offset after which to start repeating the pattern
-- The interval defining how often to repeat the pattern
-- A boolean flag indicating whether to draw the underlying line or just follow it
+![lines drawn with various patterns](./img/demo.png)
 
 ## Getting Started
 
