@@ -130,7 +130,7 @@ const features = new L.GeoJSON({
   ]
 },
   {
-    style: (feature) => ({ weight: 1, ...feature.properties }),
+    style: (feature) => ({ weight: 2, ...feature.properties }),
     onEachFeature: (feature, layer) => {
       layer.bindPopup(
         `<p><strong>${feature.properties.label}:</strong></p><p>${feature.properties.pattern}</p>`
