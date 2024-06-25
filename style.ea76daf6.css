@@ -1,0 +1,2 @@
+*{margin:0;padding:0}header{background-color:#9cf;width:98%;height:3em;padding:0 1%;border-bottom:2px solid #000}main{position:relative;height:calc(100vh - 5em - 4px)}#map{top:0}#map,footer{position:absolute;width:100%;bottom:0}footer{text-align:center;background-color:#9cf;height:2em;border-top:2px solid #000}footer p{padding:.4em}
+/*# sourceMappingURL=style.ea76daf6.css.map */
