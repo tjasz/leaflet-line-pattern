@@ -2,6 +2,8 @@
 
 leaflet-line-pattern is a leaflet plugin that enables more options for how a line should be drawn, such as adding arrowheads or tick marks.
 
+Check out the [live demo](https://tjasz.github.io/leaflet-line-pattern/).
+
 ![lines drawn with various patterns](./img/demo.png)
 
 ## Getting Started
