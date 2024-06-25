@@ -13,7 +13,7 @@ Before committing changes, use `npm run lint` to format the files with prettier.
 1. You can use `npm link` to try to test the package.
    However, if you link it to a project that already has a Leaflet instance,
    it can add a second Leaflet instance and behave poorly.
-1. `npm deploy`
+1. `npm publish`
 
 ## Demo
 
