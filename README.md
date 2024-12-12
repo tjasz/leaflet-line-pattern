@@ -50,8 +50,8 @@ Patterns are defined with a semicolon-separated string of one or more pattern pa
    Default: 100%.
 1. A "T" or "F" indicating a boolean flag. If any pattern part has "T" here,
    the underlying line will be drawn.
-   If all parts of a pattern have "F" here, the pattersn will be repeated along
-   the line, but it will not be drawn.
+   If all parts of a pattern have "F" here, the patterns will be repeated along
+   the line, but the line itself will not be drawn.
    Default: "F".
    _Note: does not apply to polygons. The line will be drawn regardless, so it can be filled._
 
@@ -75,3 +75,5 @@ if a horizontal line is drawn with this pattern,
 the pattern path will be rotated to be a vertical tick mark.
 
 ![a horizontal line with a vertical tick mark in the middle](./img/example.png)
+
+The pattern definitions for more examples can be found in the "demo" folder.
